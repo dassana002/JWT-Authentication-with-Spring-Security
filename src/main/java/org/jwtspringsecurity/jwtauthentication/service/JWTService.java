@@ -27,4 +27,14 @@ public class JWTService {
         }
     }
 
+    // Generate Token
+    public String generateToken(String username) {
+        return Jwts.builder()
+                .subject(username)
+                .issuedAt(new Date(System.currentTimeMillis()))
+                .expiration((new Date(new Date().getTime() + 1000 * 60 * 60 * 24 * 7)))
+                .signWith(secretKey)
+                .compact();
+    }
+
 }

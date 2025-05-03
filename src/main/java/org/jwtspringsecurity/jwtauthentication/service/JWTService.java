@@ -2,10 +2,6 @@ package org.jwtspringsecurity.jwtauthentication.service;
 
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
-import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import javax.crypto.KeyGenerator;
@@ -28,13 +24,23 @@ public class JWTService {
     }
 
     // Generate Token
-    public String generateToken(String username) {
+    public String generateToken() {
         return Jwts.builder()
-                .subject(username)
+                .subject("Dassana")
                 .issuedAt(new Date(System.currentTimeMillis()))
                 .expiration((new Date(new Date().getTime() + 1000 * 60 * 60 * 24 * 7)))
                 .signWith(secretKey)
                 .compact();
+    }
+
+    // Get User Name On Token
+    public String getUsername(String token) {
+        return Jwts
+                .parser()
+                .verifyWith(secretKey).build()
+                .parseSignedClaims(token)
+                .getPayload()
+                .getSubject();
     }
 
 }

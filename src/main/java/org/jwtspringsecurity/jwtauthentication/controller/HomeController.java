@@ -13,6 +13,7 @@ public class HomeController {
 
     private final JWTService jwtService;
 
+    // Testing
     @GetMapping
     public String home() {
         return "Hello World";
